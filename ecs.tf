@@ -45,7 +45,7 @@ resource "aws_ecs_task_definition" "task_definition_rest_api" {
   container_definitions = jsonencode([
     {
       name         = "word_press_container"
-      image        = "${aws_ecr_repository.ecr_rest_api.repository_url}:latest"
+      image        = "${aws_ecr_repository.ecr_word_press.repository_url}:latest"
       cpu          = 500
       memory       = 100
       cw_log_group = "cw-ecs-task",
@@ -61,7 +61,7 @@ resource "aws_ecs_task_definition" "task_definition_rest_api" {
         logDriver = "awslogs",
         options = {
           awslogs-group         = "cw-ecs-task",
-          awslogs-region        = "eu-west-1",
+          awslogs-region        = data.aws_region.current.name,
           awslogs-stream-prefix = "ecs",
           mode                  = "non-blocking",
           max-buffer-size = "25m"

@@ -1,9 +1,9 @@
 locals {
   vars = {
-    S3_BUCKET_API = aws_s3_bucket.app_bucket.bucket
-    AWS_REGION    = "eu-west-1"
+    AWS_REGION      = data.aws_region.current.name
     ACCOUNT_ID    = data.aws_caller_identity.current.account_id
-    ECR_REVERS_NAME = aws_ecr_repository.ecr_reverse_proxy.name
-    ECR_API_NAME    = aws_ecr_repository.ecr_rest_api.name
+    ECR_WORDPRESS_NAME = aws_ecr_repository.ecr_word_press.name
+    WORDPRESS_VERSION  = var.wordpress_version
+     ECR_URL            = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com"
   }
 }

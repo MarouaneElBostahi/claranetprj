@@ -36,7 +36,7 @@ resource "aws_iam_policy" "task_permissions" {
         "Effect": "Allow",
         "Action": "ecs:UpdateService",
         "Resource": [
-          "arn:aws:ecs:eu-west-1:${data.aws_caller_identity.current.account_id}:cluster/ecs-cluster",
+          "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster/ecs-cluster",
           "arn:aws:ecs:*:${data.aws_caller_identity.current.account_id}:service/*/*"
         ]
       },
@@ -62,8 +62,7 @@ resource "aws_iam_policy" "task_permissions" {
         "Effect": "Allow",
         "Action": "ecr:*",
         "Resource": [
-          aws_ecr_repository.ecr_rest_api.arn,
-          aws_ecr_repository.ecr_reverse_proxy.arn
+          aws_ecr_repository.ecr_word_press.arn
         ]
       },
       {
@@ -72,16 +71,7 @@ resource "aws_iam_policy" "task_permissions" {
           "ecs:ExecuteCommand",
           "ecs:DescribeTasks"
         ],
-        "Resource": "arn:aws:ecs:eu-west-1:${data.aws_caller_identity.current.account_id}:task/*/*"
-      },
-      {
-        "Effect": "Allow",
-        "Action": [
-          "s3:*"
-        ],
-        "Resource": [
-          "${aws_s3_bucket.app_bucket.arn}/*"
-        ]
+        "Resource": "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:task/*/*"
       }
     ]
   })

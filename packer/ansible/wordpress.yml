@@ -1,9 +1,0 @@
----
-- name: Wordpress | Installation
-  hosts: localhost
-
-  roles:
-    - supervisor
-    - php-fpm
-    - nginx
-    - wordpress
