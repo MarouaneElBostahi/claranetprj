@@ -1,68 +1,74 @@
-# Cloud Infrastructure Assessment
+# WordPress su ECS
 
-## Purpose
-This assessment evaluates your knowledge of "state of the art" cloud solutions, particularly AWS, with a focus on Linux system administration and cloud orchestration.
+## Scopo
+Questo progetto ha l'obiettivo di distribuire un'applicazione WordPress sicura, veloce, tollerante ai guasti e scalabile su AWS ECS. Il provisioning dell'infrastruttura può essere effettuato utilizzando lo strumento preferito (Terraform).
 
-## Objectives
-The goal is to blueprint and, where possible, implement the following infrastructure:
-1. **ECS Cluster**:
-   - Include all necessary network resources.  :white_check_mark:
-2. **Microservices**:
-   - **Reverse Proxy Application**:  :x:
-     - Publicly accessible.
-     - Routes traffic to the simple REST application.
-     - Use Nginx (preferred) or Apache.
-     - Include a Dockerfile.
-   - **Instead of using a reverse proxy as Entry Point i used an ALB that are publicly available**  :white_check_mark:
-   - **Simple REST Application**:  :white_check_mark:
-     - Private access only.
-     - Preferred language: Python.
-     - Include a Dockerfile.
-3. **CloudWatch Alarm**:  :white_check_mark:
-   - Create at least one CloudWatch Alarm suitable for a production environment.
+## Obiettivi
+L'obiettivo è progettare e, dove possibile, implementare la seguente infrastruttura:
+1. **Cluster ECS**:
+   - Includere tutte le risorse di rete necessarie.
+2. **Applicazione WordPress**:
+   - **Application Load Balancer (ALB)**:
+     - Accessibile pubblicamente.
+     - Instrada il traffico verso l'applicazione WordPress.
+   - **Applicazione WordPress**:
+     - Esegue su ECS.
+     - Includere un Dockerfile.
+     - Parametrizzare la versione di WordPress.
+3. **Allarme CloudWatch**:
+   - Creare almeno un allarme CloudWatch adatto per un ambiente di produzione.
 
-## Requirements
-The following tools and resources are mandatory:
-- **AWS Free Tier Resources**:
-  - [AWS Free Tier](https://aws.amazon.com/it/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all)
-- **Terraform**:
-  - To define and manage the infrastructure as code.
-- **Bash/Python**:
-  - For scripting as needed.
+## Requisiti
+Gli strumenti e le tecnologie seguenti sono richiesti per completare il progetto:
+- **Strumento di provisioning dell'infrastruttura**:
+  - Terraform.
+- **Bash**:
+  - Per scripting.
 
 ## Deliverables
-- Infrastructure blueprint using **Terraform**.  :white_check_mark:
-- Dockerfiles for both microservices.  :white_check_mark:
-- CloudWatch Alarm configuration.  :white_check_mark:
-- (Optional) A functional script or set of scripts demonstrating the setup.  :white_check_mark:
+- Progetto dell'infrastruttura utilizzando lo strumento di provisioning scelto.
+- Dockerfile per l'applicazione WordPress.
+- Configurazione dell'allarme CloudWatch.
+- (Opzionale) Uno script funzionale o un set di script che dimostrano il setup.
 
-## Bonus Objectives
-Additional features to earn bonus points:
-1. **Security Best Practices**:  :white_check_mark:
-   - Implement at least 5 best practices in the infrastructure.
-2. **Log Collection**:  :white_check_mark:
-   - Collect logs for the microservices.
-3. **Auto-scaling Policies**:  :white_check_mark:
-   - Define auto-scaling configurations for the ECS cluster or microservices.
-4. **CI/CD Pipeline**:
-   - Create a pipeline for one microservice using:
+## Obiettivi Bonus
+Funzionalità aggiuntive per guadagnare punti bonus:
+1. **Best Practices di Sicurezza**:
+   - Implementare almeno 5 best practices nell'infrastruttura.
+2. **Raccolta Log**:
+   - Raccogliere i log per l'applicazione WordPress.
+3. **Politiche di Auto-scaling**:
+   - Definire configurazioni di auto-scaling per il cluster ECS o l'applicazione WordPress.
+4. **Pipeline CI/CD**:
+   - Creare una pipeline per l'applicazione WordPress utilizzando:
      - AWS CodePipeline
      - GitHub Actions
      - GitLab CI/CD
-5. **Architecture Diagram**:
-   - Illustrate an ETL flow related to the application.
+5. **Diagramma Architetturale**:
+   - Illustrare la configurazione dell'infrastruttura.
 
-## Submission
-- **Timeline**: 5 days from receipt of the assessment.
-- Provide the solution in a structured repository format, including:
-  - Terraform configuration files.
-  - Dockerfiles.
-  - Scripts (if any).
-  - Documentation or notes for setup and execution.
+## Descrizione della Soluzione
+L'infrastruttura è composta dai seguenti componenti:
+1. **VPC**:
+   - 3 subnet pubbliche.
+   - 3 subnet private.
+   - Endpoint per contattare i servizi AWS senza passare dal pubblico.
+2. **EC2 Instance**:
+   - Utilizzata per eseguire `docker pull` e pushare automaticamente l'immagine su ECR.
+3. **ECS Cluster**:
+   - Distribuito sulle subnet private.
+4. **Application Load Balancer (ALB)**:
+   - Utilizzato come punto di accesso pubblico per l'applicazione WordPress.
 
-## Evaluation Criteria
-The assessment will be evaluated based on:
-- **Solution Design**: Choice of tools and overall approach.
-- **Simplicity & Efficiency**: Easy-to-understand and performant implementation.
-- **Security**: Adherence to best practices.
-- **Completeness**: Fulfillment of all mandatory and bonus objectives.
+### Problemi Attuali
+Ad oggi, WordPress non funziona correttamente in quanto sembra che la root di WordPress non sia `/`. Non ho avuto il tempo né il modo di debuggarlo ulteriormente.
+
+## Diagramma dell'Infrastruttura
+Questo e come avrei creato l'infra per un sito non statico, ad oggi l'attuale infra non tiene conto di EFS e RDS
+![Diagramma dell'Infrastruttura](./infra.png)
+
+## Istruzioni per l'Installazione
+1. Clonare il repository:
+   ```sh
+   git clone https://github.com/your-repo/wordpress-ecs.git
+   cd wordpress-ecs
