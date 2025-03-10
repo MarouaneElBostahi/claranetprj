@@ -70,5 +70,9 @@ Questo e come avrei creato l'infra per un sito non statico, ad oggi l'attuale in
 ## Istruzioni per l'Installazione
 1. Clonare il repository:
    ```sh
-   git clone https://github.com/your-repo/wordpress-ecs.git
+   git clone https://github.com/MarouaneElBostahi/claranetprj.git
    cd wordpress-ecs
+   terraform init
+   terraform plan
+   terraform apply
+   ```
