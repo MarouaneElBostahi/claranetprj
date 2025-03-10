@@ -25,28 +25,6 @@ Gli strumenti e le tecnologie seguenti sono richiesti per completare il progetto
 - **Bash**:
   - Per scripting.
 
-## Deliverables
-- Progetto dell'infrastruttura utilizzando lo strumento di provisioning scelto.
-- Dockerfile per l'applicazione WordPress.
-- Configurazione dell'allarme CloudWatch.
-- (Opzionale) Uno script funzionale o un set di script che dimostrano il setup.
-
-## Obiettivi Bonus
-Funzionalità aggiuntive per guadagnare punti bonus:
-1. **Best Practices di Sicurezza**:
-   - Implementare almeno 5 best practices nell'infrastruttura.
-2. **Raccolta Log**:
-   - Raccogliere i log per l'applicazione WordPress.
-3. **Politiche di Auto-scaling**:
-   - Definire configurazioni di auto-scaling per il cluster ECS o l'applicazione WordPress.
-4. **Pipeline CI/CD**:
-   - Creare una pipeline per l'applicazione WordPress utilizzando:
-     - AWS CodePipeline
-     - GitHub Actions
-     - GitLab CI/CD
-5. **Diagramma Architetturale**:
-   - Illustrare la configurazione dell'infrastruttura.
-
 ## Descrizione della Soluzione
 L'infrastruttura è composta dai seguenti componenti:
 1. **VPC**:
